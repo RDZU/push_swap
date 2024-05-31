@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <unistd.h>
 #include <stdlib.h>
 
 
@@ -11,38 +12,15 @@ typedef struct	s_list
 
 typedef struct	s_stack
 {
-	int			content;
-	int			index;
-	int			pos;
-	int			count_move;
-	int			cheaper;
-	int			higher;
-	int			minor;
+	int				content;
+	int				index;
+	int				pos;
+	// int			count_move;
+	// int			cheaper;
+	// int			higher;
+	// int			minor;
 	struct s_stack	*next;
 }					t_stack;
-
-
-// contenido del nodo
-t_list	*ft_lstnew (void * content)
-{
-	t_list *node;
-
-	node = (t_list *)malloc(sizeof(t_list));
-	if (!node)
-		return (NULL);
-	node->content = content;
-	node->next = NULL;
-	return (node);
-}
-
-					// nodo 1 /nodo 2
-void    ft_lstadd_front(t_list **lst, t_list *new)
-{
-	if (!lst || !new)
-		return ;
-	new->next = *lst;
-	*lst = new;
-}
 
 
 // void ft_display(t_list *n)
@@ -84,6 +62,51 @@ void    ft_lstadd_front(t_list **lst, t_list *new)
 
 // ORDENAMIENTO
 
+t_stack	*ft_lstlast(t_stack *lst)
+{
+	if (!lst)
+		return (NULL);
+	while (lst->next != NULL)
+		lst = lst->next;
+	return (lst);
+}
+
+//void push (t_stack a, t_stack b )
+void	ft_rotate_reverse(t_stack **list)
+{
+	t_stack		*first;
+	t_stack		*aux;
+	t_stack		*last;
+
+	if (!list || !(*list)->next)
+		return ;
+	
+	first = (*list);
+	last = ft_lstlast(*list);
+	aux = *list;
+	while (aux->next->next)
+		aux = aux->next;
+	aux->next = NULL;
+	last->next = first;
+	*list = last;
+	write(1,"rra\n",4);
+}
+
+void ft_rotate(t_stack **list)
+{
+	t_stack		*last;
+	t_stack		*first;
+	
+	if (!list || !*list)
+		return ;
+	first = (*list);
+	last = ft_lstlast(*list);
+	*list = (*list)->next;
+    last->next = first;
+    first->next = NULL;
+	write(1,"ra\n",3);
+}
+
 void ft_swap(t_stack **list)
 {
 	t_stack *aux;
@@ -96,6 +119,8 @@ void ft_swap(t_stack **list)
 	aux->next = (*list)->next;
 	(*list)->next = aux;
 }
+
+
 
 
 // void push_other_stack(t_stack **before, int content, int pos)
@@ -176,10 +201,10 @@ void ft_push(t_stack **before, int content, int pos) {
 	new->content = content;
 	new->index = 0;
 	new->pos = pos;
-	new->count_move = -1;
-	new->cheaper = -1;
-	new->higher = -1;
-	new->minor = -1;
+	// new->count_move = -1;
+	// new->cheaper = -1;
+	// new->higher = -1;
+	// new->minor = -1;
 	new->next = *before;
 	*before = new;
 }
@@ -269,18 +294,18 @@ void ft_display(t_stack *n)
 		printf(" | contenido: %d | ", n->content);
 		printf(" index: %d | ", n->index);
 		printf(" pos: %d | ", n->pos);
-		printf(" count_move: %d | ", n->count_move);
-		printf(" cheaper: %d | ", n->cheaper);
-		printf(" higher: %d | ", n->higher);
-		printf(" minor: %d | ", n->minor);
-		printf(" count: %d \n | ", count++);
+		// printf(" count_move: %d | ", n->count_move);
+		// printf(" cheaper: %d | ", n->cheaper);
+		// printf(" higher: %d | ", n->higher);
+		// printf(" minor: %d | ", n->minor);
+		printf(" count: %d | \n", count++);
 		 n = n->next;
 	}
 }
 int main (int argc, char **argv)
 {
 	 t_stack *head = NULL; 
-	 int i = 0;
+	 int i = argc;
 	
 	// int a = 50;
 	// int b = 40;
@@ -297,17 +322,19 @@ int main (int argc, char **argv)
 	//ft_replace(argv);
 	if (argc >= 2)
 	{
-		while (++i < argc)
+		while (--i > 0)
 		{
 			ft_push(&head,ft_atoi(argv[i]),i);
 		}
 
-		printf("%d", ft_check(head));
+		printf("%d\n", ft_check(head));
 		ft_sort_index(head);
-	//	ft_swap(&head);
+		ft_rotate(&head);
+		//ft_rotate_reverse(&head);
+		///ft_swap(&head);
 	//	ft_swap(&head);
 		ft_display(head);
-	//	free(head);
+		free(head);
 	}
 }
 
