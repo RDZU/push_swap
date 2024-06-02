@@ -1,64 +1,5 @@
-#include <stdio.h>
-#include <unistd.h>
-#include <stdlib.h>
+#include "push_swap.h"
 
-
-typedef struct	s_list
-{
-	void			*content;
-	struct s_list	*next;
-}					t_list;
-
-
-typedef struct	s_stack
-{
-	int				content;
-	int				index;
-	int				pos;
-	// int			count_move;
-	// int			cheaper;
-	// int			higher;
-	// int			minor;
-	struct s_stack	*next;
-}					t_stack;
-
-
-// void ft_display(t_list *n)
-// {
-// 	while(n != NULL)
-// 	{
-// 		printf("%d , ", *(int *)n->content);
-// 		 n = n->next;
-// 	}
-// }
-// int main()
-// {
-// 	t_list *head = NULL;
-// 	int a = 1337;
-// 	void *pta = &a;
-// 	t_list *node1 = ft_lstnew(pta);
-
-// 	head = node1;
-// 	int b = 42;
-// 	void *ptb = &b;
-// 	t_list *node2 = ft_lstnew(ptb);
-
-// 	ft_lstadd_front(&head, node2);  // Pass the address of head to modify it
-
-// 	int c = 50;
-// 	void *ptc = &c;
-// 	t_list *node3 = ft_lstnew(ptc);
-
-// 	ft_lstadd_front(&head, node3); 
-
-// 	printf("Contents of the list:\n");
-// 	ft_display(head);
-
-// 	free(node1);
-// 	free(node2);
-// 	free(node3);
-// 	return 0;
-// }
 
 // ORDENAMIENTO
 
@@ -102,10 +43,65 @@ void ft_rotate(t_stack **list)
 	first = (*list);
 	last = ft_lstlast(*list);
 	*list = (*list)->next;
-    last->next = first;
-    first->next = NULL;
+	last->next = first;
+	first->next = NULL;
 	write(1,"ra\n",3);
 }
+
+
+
+void	push_other_stack_b(t_stack **a, t_stack **b)
+{
+	t_stack *aux;
+	t_stack *new;
+	int		content;
+	int		index;
+	int		pos;
+
+	if (!a || !b)
+		return;
+	aux = *a;
+	content = aux->content;
+	index = aux->index;
+	pos = aux->pos;
+	*a = aux->next;
+
+	new = (t_stack *)malloc(sizeof(t_stack));
+	if (!new)
+		return;
+	new->content = content;
+	new->index = index;
+	new->pos = pos;
+	new->next = *b;
+	*b = new;
+	write(1,"pb\n",3);
+}
+
+void	push_other_stack_a(t_stack **a, t_stack **b)
+{
+	t_stack *aux;
+	t_stack *new;
+	int		content;
+	int		index;
+
+	if (!a || !b)
+		return;
+	aux = *b;
+	content = aux->content;
+	index = aux->index;
+	*b = aux->next;
+
+	new = (t_stack *)malloc(sizeof(t_stack));
+	if (!new)
+		return;
+	new->content = content;
+	new->index = index;
+	new->pos = 1;
+	new->next = *a;
+	*a = new;
+	write(1,"pb\n",3);
+}
+
 
 void ft_swap(t_stack **list)
 {
@@ -113,39 +109,97 @@ void ft_swap(t_stack **list)
 
 	if (!list || !(*list)->next)
 		return ;
-
 	aux = *list;
 	*list = (*list)->next;
 	aux->next = (*list)->next;
 	(*list)->next = aux;
+	write(1,"sa\n",3);
+}
+
+void ft_sort_three(t_stack **stack)
+{
+	int	a;
+	int	b;
+	int	c;
+
+	a = (*stack)->index;
+	b = (*stack)->next->index;
+	c = (*stack)->next->next->index;
+
+	if(b > c && a < c)
+	{
+		printf("\n caso 1");
+		ft_swap(stack);
+		ft_rotate(stack);
+	}
+	else if (a > b && b > c)
+	{
+		printf("\n caso 2");
+		ft_rotate(stack);
+		ft_swap(stack);
+	}
+	else if (b > a && a > c)
+	{
+		printf("\n caso 3");
+		ft_rotate_reverse(stack);
+		
+	}
+	else if(c > b && b < a)
+	{
+		printf("\n caso 4");
+		ft_swap(stack);
+	}
+}
+
+void ft_sort_five(t_stack **stack_a, t_stack **stack_b)
+{
+	t_stack *current = *stack_a;
+	int contador = 0;
+	int	num_move_other_stack = 0;
+
+		while (num_move_other_stack <= 1)
+		{
+		//	printf(" | contenido------>>>>>>: %d | ", (*stack_a)->content);
+			if ((*stack_a)->index == 0  || (*stack_a)->index == 1)
+			{	
+				push_other_stack_b(stack_a, stack_b);
+				num_move_other_stack++;
+			}
+			else
+				ft_rotate(stack_a);
+		}
+	ft_sort_three(stack_a);
+	push_other_stack_b(stack_b, stack_a);
+	push_other_stack_b(stack_b, stack_a);
+	if ((*stack_a)->index > (*stack_a)->next->index)
+	{
+		ft_swap(stack_a);
+	}
 }
 
 
-
-
-// void push_other_stack(t_stack **before, int content, int pos)
-// {
-// 	 t_stack *new;
-
-// 	if (!before)
-// 		return;
-
-// 	new = (t_stack *)malloc(sizeof(t_stack));
-// 	if (!new)
-// 		return;
-	
-// 	new->content = content;
-// 	new->index = 0;
-// 	new->pos = pos;
-// 	new->count_move = -1;
-// 	new->cheaper = -1;
-// 	new->higher = -1;
-// 	new->minor = -1;
-// 	new->next = *before;
-// 	*before = new;
-// }
-
-
+void ft_sort(t_stack **a, t_stack **b, int size_list)
+{
+	printf("\n size_list: %d \n", size_list);
+	// verificas si esta ordenado
+	if (size_list == 2)
+	{
+		ft_swap(a);
+	}
+	else if (size_list == 3)
+	{
+		ft_sort_three(a);
+	}
+	else if(size_list == 5)
+	{
+		ft_sort_five(a, b);
+	}
+	else if (size_list > 5)
+	{
+		ksort_part_one(a, b, size_list);
+		ksort_parte_two_modify(a, b, size_list);
+	}	
+}
 int	ft_atoi(const char *str)
 {
 	int	sign;
@@ -184,12 +238,10 @@ int ft_size_list(t_stack *head)
 	}
 	return (pos);
 }
-
-
-
 				// node 1 			node 2
-void ft_push(t_stack **before, int content, int pos) {
-    t_stack *new;
+void ft_push(t_stack **before, int content, int pos)
+{
+	t_stack *new;
 
 	if (!before)
 		return;
@@ -201,10 +253,6 @@ void ft_push(t_stack **before, int content, int pos) {
 	new->content = content;
 	new->index = 0;
 	new->pos = pos;
-	// new->count_move = -1;
-	// new->cheaper = -1;
-	// new->higher = -1;
-	// new->minor = -1;
 	new->next = *before;
 	*before = new;
 }
@@ -240,7 +288,7 @@ void ft_push(t_stack **before, int content, int pos) {
 // 	return (0);
 // }
 
-int ft_check( t_stack *head)
+int ft_check_equal( t_stack *head)
 {
 	t_stack	*i;
 	t_stack	*j;
@@ -258,18 +306,35 @@ int ft_check( t_stack *head)
 		}
 		i = i->next;
 	}
-	return 0;
+	return (0);
 }
 
+int	ft_is_sort(t_stack *head)
+{
+	t_stack *i;
+	t_stack *j;
 
-void ft_sort_index(t_stack *head)
+	i = head;
+	while (i != NULL)
+	{
+		j = i->next;
+		while(j != NULL && j->next != NULL)
+		{
+			if (i->content > j->content)
+				return (1);
+			j = j->next;
+		}
+		i = i->next;
+	}
+	return(0);
+}
+void	ft_sort_index(t_stack *head)
 {
 	t_stack	*i;
 	t_stack	*j;
 	int		index;
 
 	index = 0;
-
 	i = head;
 	
 	while (i != NULL)
@@ -280,7 +345,7 @@ void ft_sort_index(t_stack *head)
 			if (i->content > j->content)
 				i->index += 1;
 			else if (i->content < j->content) 
-        		j->index += 1;
+				j->index += 1;
 			j = j->next;
 		}
 		i = i->next;
@@ -294,47 +359,45 @@ void ft_display(t_stack *n)
 		printf(" | contenido: %d | ", n->content);
 		printf(" index: %d | ", n->index);
 		printf(" pos: %d | ", n->pos);
-		// printf(" count_move: %d | ", n->count_move);
-		// printf(" cheaper: %d | ", n->cheaper);
-		// printf(" higher: %d | ", n->higher);
-		// printf(" minor: %d | ", n->minor);
+		printf(" dir. actual: %p | ", n);
+		printf(" dir. apunta: %p | ", n->next);
 		printf(" count: %d | \n", count++);
 		 n = n->next;
 	}
 }
 int main (int argc, char **argv)
-{
-	 t_stack *head = NULL; 
+{	
+	 t_stack *stack_a = NULL;
+	 t_stack *stack_b = NULL; 
 	 int i = argc;
-	
-	// int a = 50;
-	// int b = 40;
-	// int c = 30;
-	// int d = 10;
-	// int e = 20;
-	// ft_push(&head,a);
-	// ft_push(&head,b);
-	// ft_push(&head,c);
-	// ft_push(&head,d);
-	// ft_push(&head,e);
-	// ft_display(head);
-	// free(head);
-	//ft_replace(argv);
+
 	if (argc >= 2)
 	{
 		while (--i > 0)
 		{
-			ft_push(&head,ft_atoi(argv[i]),i);
+			ft_push(&stack_a,ft_atoi(argv[i]),i);
 		}
+		//printf("%d\n", ft_check_equal(stack_a));
+		//ft_is_sort(stack_a);
+		printf("Esta Ordenado:");
+		//ft_is_sort(stack_a);
+		ft_sort_index(stack_a);
+		//ft_swap(&head);
+		//ft_rotate(&stack_a);
+		//ft_rotate_reverse(&stack_a);
+		//ft_swap(&head);
+		//ft_swap(&head);
+		// push_other_stack_b(&stack_a, &stack_b);
+		// push_other_stack_b(&stack_a, &stack_b);
+		// push_other_stack_b(&stack_a, &stack_b);
 
-		printf("%d\n", ft_check(head));
-		ft_sort_index(head);
-		ft_rotate(&head);
-		//ft_rotate_reverse(&head);
-		///ft_swap(&head);
-	//	ft_swap(&head);
-		ft_display(head);
-		free(head);
+		ft_sort(&stack_a, &stack_b, argc - 1);
+		printf("\n Stack a \n");
+		ft_display(stack_a);
+		printf("Stack b \n");
+		ft_display(stack_b);
+		free(stack_a);
+		free(stack_b);
 	}
 }
 
