@@ -1,5 +1,6 @@
 #include "push_swap.h"
 #include <fcntl.h>
+
 int		ft_lstsize(t_stack *lst);
 //int	ft_lstsize(t_stack *lst);
 int		count_r(t_stack *stack, int index);
@@ -12,7 +13,7 @@ void	ft_sort(t_stack **stack_a, t_stack **stack_b, int size_list);
 int		ft_atoi(const char *str);
 int		ft_size_list(t_stack *head);
 void	ft_push(t_stack **before, int content, int pos);
-int		ft_check_equal( t_stack *head);
+void	ft_check_equal( t_stack *head);
 int		ft_is_sort(t_stack *head);
 void	ft_sort_index(t_stack *head);
 void	ft_display(t_stack *n);
@@ -22,9 +23,26 @@ void	push_other_stack(t_stack **a, t_stack **b, char type);
 void	ft_swap(t_stack **list, char type);
 void	ft_putnbr_fd(int n, int fd);
 void	ft_putchar_fd(char c, int fd);
+//void	ft_is_numeric(char *str);
+int		ft_is_numeric(char *str);
+void	ft_is_ordened(t_stack *head);
+void	ft_msm_error(char *str, int flag);
+size_t	ft_strlen(const char *s);
+
 // ORDENAMIENTO
 
+size_t	ft_strlen(const char *s)
+{
+	size_t	i;
 
+	i = 0;
+	while (*s != '\0')
+	{
+		s++;
+		i++;
+	}
+	return (i);
+}
 void	ft_putchar_fd(char c, int fd)
 {
 	write(fd, &c, 1);
@@ -320,7 +338,8 @@ void ft_sort(t_stack **stack_a, t_stack **stack_b, int size_list)
 	// verificas si esta ordenado
 	if (size_list == 2)
 	{
-		ft_swap(stack_a,'a');
+		if((*stack_a)->index > (*stack_a)->next->index)
+			ft_swap(stack_a,'a');
 	}
 	else if (size_list == 3)
 	{
@@ -339,32 +358,9 @@ void ft_sort(t_stack **stack_a, t_stack **stack_b, int size_list)
 
 void ft_sort_ksort(t_stack **stack_a, t_stack **stack_b, int size_list)
 {
-	// printf("\n size_list: %d \n", size_list);
-	// // verificas si esta ordenado
-	// if (size_list == 2)
-	// {
-	// 	ft_swap(a,'a');
-	// }
-	// else if (size_list == 3)
-	// {
-	// 	ft_sort_three(a);
-	// }
-	// else if(size_list == 5)
-	// {
-	// 	ft_sort_five(a, b);
-	// }
-	// else if (size_list > 5)
-	// {
-	// 	//   ksort_part_one((a), (b), size_list);
-	// 	//   ksort_part_two(*(a), *(b), size_list);
-	// }	
-// void	ksort_part_one(t_stack **stack_a, t_stack **stack_b, int length);
-// void	ksort_part_two(t_stack **stack_a, t_stack **stack_b, int length);
-
-
-		int	i;
+	int	i;
 	int	range;
-		int	rb_count;
+	int	rb_count;
 	int	rrb_count;
 
 	i = 0;
@@ -411,13 +407,15 @@ void ft_sort_ksort(t_stack **stack_a, t_stack **stack_b, int size_list)
 }
 int	ft_atoi(const char *str)
 {
-	int	sign;
-	int	result;
-	int	i;
+	int		sign;
+	long	result;
+	int		i;
 
 	i = 0;
 	sign = 1;
 	result = 0;
+	if (ft_strlen(str) > 11)
+		ft_msm_error("max 12 strlen", 1);
 	while ((str[i] >= 9 && str[i] <= 13) || str[i] == 32)
 		i++;
 	if (str[i] == 43 || str[i] == 45)
@@ -431,7 +429,13 @@ int	ft_atoi(const char *str)
 		result = result * 10 + (str[i] - 48);
 		i++;
 	}
-	return (result * sign);
+	result = result * sign;
+	//printf("--> %ld", result);
+	if (result < -2147483648 || result > 2147483647)
+		ft_msm_error("outside range",1);
+	// if (-2147483648  < result)
+	// 	ft_msm_error("outside range",1);
+	return (result);
 }
 
 int ft_size_list(t_stack *head)
@@ -447,6 +451,18 @@ int ft_size_list(t_stack *head)
 	}
 	return (pos);
 }
+
+void ft_free_stack(t_stack **stack)
+{
+    t_stack *tmp;
+
+    while (*stack)
+    {
+        tmp = (*stack)->next;
+        free(*stack);
+        *stack = tmp;
+    }
+}
 				// node 1 			node 2
 void ft_push(t_stack **before, int content, int pos)
 {
@@ -457,47 +473,37 @@ void ft_push(t_stack **before, int content, int pos)
 
 	new = (t_stack *)malloc(sizeof(t_stack));
 	if (!new)
-		return;
-	
+	{	
+		ft_free_stack(&new);
+	}
 	new->content = content;
 	new->index = 0;
 	new->pos = pos;
 	new->next = *before;
 	*before = new;
 }
+void	ft_msm_error(char *str, int flag)
+{
+	while (*str != '\0')
+		write(1, str++, 1);
+	exit(flag);
+}
+int	ft_is_numeric(char *str)
+{
+	if(*str == '-' || *str == '+')
+		str++;
+	while (*str != '\0')
+	{
+		while (*str == ' ')
+			str++;
+		if (*str < 48 || *str > 57)
+			return (0);
+		str++;
+	}
+	return (1);
+}
 
-
-// ft_replace(argv)
-// {
-
-// }
-
-//void ft_swap()
-//void push
-// voud rotate
-// void reverse
-//void rrr
-// int	ft_doble_char(char *str)
-// {
-// 	int i;
-// 	int	j;
-	
-// 	i = 0;
-// 	while(i < strlen(str))
-// 	{
-// 		j = i + 1;
-// 		while(j < strlen(str))
-// 		{
-// 		  	if(str[i] == str[j])
-// 				return (1);
-// 		  	j++;
-// 		}
-// 		i++;
-// 	  }
-// 	return (0);
-// }
-
-int ft_check_equal( t_stack *head)
+void	ft_check_equal( t_stack *head)
 {
 	t_stack	*i;
 	t_stack	*j;
@@ -508,15 +514,62 @@ int ft_check_equal( t_stack *head)
 	{
 		j = i->next;
 		while(j != NULL)
-		{
+		{	
+			printf("i: %d, j:%d \n",i->content, j->content);
 			if (i->content == j->content)
-				return (1);
+				ft_msm_error("repeat Error",1);
 			j = j->next;
 		}
 		i = i->next;
 	}
-	return (0);
 }
+// void ft_is_ordened(t_stack *head)
+// {
+// 	t_stack *i;
+// 	t_stack *j;
+
+// 	i = head;
+// 	while (i != NULL )
+// 	{
+// 		j = i->next;
+// 		while (j != NULL && j->next != NULL)
+// 		{
+// 			if (i->content > j->content)
+// 			j = j->next;
+// 		}
+// 		i = i->next;
+// 	}
+// }
+
+void ft_is_ordened(t_stack *head)
+{
+	t_stack	*i;
+	t_stack	*j;
+	int		size_list;
+	int		count_comparative;
+
+	i = head;
+	j = i->next;
+
+	size_list = ft_lstsize(head);
+	if (size_list > 1)
+	{
+	count_comparative = 0;
+		while (j != NULL)
+		{
+			if (j->content > i->content)
+				count_comparative++;
+			//printf("i-> %d, j->%d \n", i->content, j->content);
+			i = i->next;
+			j = j->next;
+		}
+		//printf("count-> %d, size-> %d \n", count_comparative,size_list - 1);
+		if (count_comparative == size_list - 1)
+			exit(0);
+
+	}
+}
+
 
 int	ft_is_sort(t_stack *head)
 {
@@ -560,6 +613,30 @@ void	ft_sort_index(t_stack *head)
 		i = i->next;
 	}
 }
+
+int	ft_count_digits(int argc, char **argv)
+{
+	int	i;
+	int	j;
+	int	count;
+
+	i = 1;
+	count = 0;
+	while (i < argc)
+	{
+		j = 0;
+		while (argv[i][j])
+		{
+			if (!ft_is_numeric(&argv[i][j]))
+				return (-1);
+			if (ft_is_numeric(&argv[i][j]) && (argv[i][j + 1] == ' ' ||  argv[i][j + 1] == '\0'))
+				count += 1;
+			j++;
+		}
+		i++;
+	}
+	return (count);
+}
 void ft_display(t_stack *n)
 {
 	char *file = "swap.log";
@@ -583,20 +660,39 @@ void ft_display(t_stack *n)
 int main (int argc, char **argv)
 {	
 	 t_stack *stack_a = NULL;
-	 t_stack *stack_b = NULL; 
+	 t_stack *stack_b = NULL;
+	 int	result_atoi;
 	 int i = argc;
+	 int number;
+	 int count_argc;
+	 int *number_array;
+
+	
 
 	if (argc >= 2)
 	{
+		count_argc = ft_count_digits(argc, argv);
+
+		printf(" count -->%d", count_argc);
+		exit(0);
 		while (--i > 0)
 		{
-			ft_push(&stack_a,ft_atoi(argv[i]),i);
+			ft_is_numeric(argv[i]);
+			number_array = ft_split(argc, argv);
+			//printf(" result atoi: %s \n", argv[i]);
+			result_atoi = ft_atoi(argv[i]);
+			//printf(" result atoi: %d \n", result_atoi);
+			ft_push(&stack_a, result_atoi, i);
 		}
+		ft_is_ordened(stack_a);
+		// if (is_sort == 1)
+		// 	write(1,"repeat",6);
+		ft_check_equal(stack_a);
+		ft_sort_index(stack_a);
 		//printf("%d\n", ft_check_equal(stack_a));
 		//ft_is_sort(stack_a);
 		//printf("Esta Ordenado:");
-		//ft_is_sort(stack_a);
-		ft_sort_index(stack_a);
+		//exit(1);
 		//ft_swap(&head);
 		//ft_rotate(&stack_a);
 		//ft_rotate_reverse(&stack_a);
@@ -611,7 +707,6 @@ int main (int argc, char **argv)
 		// else
 		// 	ft_sort_ksort(&stack_a, &stack_b, argc - 1);
 		//printf("\n Stack a \n");
-		
 		//printf("Stack b \n");
 		//ft_display(stack_b);
 		free(stack_a);

@@ -1,8 +1,21 @@
+
 #include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 
+
+size_t	ft_strlen(const char *s)
+{
+	size_t	i;
+
+	i = 0;
+	while (*s != '\0')
+	{
+		s++;
+		i++;
+	}
+	return (i);
+}
 
 size_t    ft_strlcpy(char *dest, const char *src, size_t size)
 {
@@ -10,7 +23,7 @@ size_t    ft_strlcpy(char *dest, const char *src, size_t size)
 
     i = 0;
     if (size == 0)
-        return (0);
+        return (ft_strlen(src));
     while (src[i] != '\0' && i < size - 1)
     {
         dest[i] = src[i];
@@ -30,7 +43,7 @@ char    *ft_substr(char const *s, unsigned int start, size_t len)
     size_t    act_len;
     char    *new;
 
-    size = strlen(s);
+    size = ft_strlen(s);
     act_len = 0;
     if (!s)
         return (NULL);
@@ -90,7 +103,6 @@ char    **ft_split(char const *s, char c)
     size_t        id_matrix;
     size_t        num_matrix;
     char        **words;
-	int			cut;
 
     if (!s)
         return (NULL);
@@ -104,9 +116,7 @@ char    **ft_split(char const *s, char c)
     {
         while (s[i] == c)
             i++;
-		cut = ft_count_lenght_split(&s[i], c);
-        words[id_matrix] = ft_substr(s, i, cut);
-
+        words[id_matrix] = ft_substr(s, i, ft_count_lenght_split(&s[i], c));
         if (!words[id_matrix])
             return (ft_free_matrix(words));
         i += ft_count_lenght_split(&s[i], c);
@@ -116,18 +126,29 @@ char    **ft_split(char const *s, char c)
     return (words);
 }
 
-int main ()
+int main (int argc, char **argv)
 {
-    char **words;
+    char **s_number;
     int i = 0;
-
-    words = ft_split("Th cat dog",' ');
-    while(words[i])
-    {
-        printf("%s\n", words[i]);
-        free(words[i]);
-        i++;
-    }
-    free(words);
+    int j = argc - 1;
+    
+    while (++i < argc)
+	{
+		s_number = ft_split(argv[i], ' ');
+		// while (s_numbers[k])
+		// 	numbers[j++] = ft_atoi(s_numbers[k++]);
+		// free_2d(s_numbers);
+         printf("%s\n", s_number[i]);
+	}
+    i = 0;
+    // while(s_number[i])
+    // {
+    //     printf("%s\n", s_number[i]);
+    //     free(s_number[i]);
+    //     i++;
+    // }
+    // free(s_number);
     return (0);
 }
+
+/*analisis**/
