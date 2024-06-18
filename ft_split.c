@@ -1,8 +1,39 @@
 
-#include <unistd.h>
-#include <stdio.h>
-#include <stdlib.h>
+#include "push_swap.h"
 
+
+// int	ft_atoi(const char *str)
+// {
+// 	int		sign;
+// 	long	result;
+// 	int		i;
+
+// 	i = 0;
+// 	sign = 1;
+// 	result = 0;
+// 	//if (ft_strlen(str) > 11)
+// 	//	ft_msm_error("max 12 strlen", 1);
+// 	while ((str[i] >= 9 && str[i] <= 13) || str[i] == 32)
+// 		i++;
+// 	if (str[i] == 43 || str[i] == 45)
+// 	{
+// 		if (str[i] == 45)
+// 			sign *= -1;
+// 		i++;
+// 	}
+// 	while (str[i] >= 48 && str[i] <= 57)
+// 	{
+// 		result = result * 10 + (str[i] - 48);
+// 		i++;
+// 	}
+// 	result = result * sign;
+// 	//printf("--> %ld", result);
+// 	///if (result < -2147483648 || result > 2147483647)
+// 		//ft_msm_error("outside range",1);
+// 	// if (-2147483648  < result)
+// 	// 	ft_msm_error("outside range",1);
+// 	return (result);
+// }
 
 size_t	ft_strlen(const char *s)
 {
@@ -126,29 +157,29 @@ char    **ft_split(char const *s, char c)
     return (words);
 }
 
-int main (int argc, char **argv)
-{
-    char **s_number;
-    int i = 0;
-    int j = argc - 1;
-    
-    while (++i < argc)
-	{
-		s_number = ft_split(argv[i], ' ');
-		// while (s_numbers[k])
-		// 	numbers[j++] = ft_atoi(s_numbers[k++]);
-		// free_2d(s_numbers);
-         printf("%s\n", s_number[i]);
-	}
-    i = 0;
-    // while(s_number[i])
-    // {
-    //     printf("%s\n", s_number[i]);
-    //     free(s_number[i]);
-    //     i++;
-    // }
-    // free(s_number);
-    return (0);
-}
-
+// int main(int argc, char **argv)
+// {
+//     char **words;
+//     int i = 1;
+//     int *number;
+//     int j = 0;
+//     int k = 0;
+//     number = (int *)malloc(sizeof(int) * 7);
+//     while (i < argc)
+//     {
+//         words = ft_split(argv[i],' ');
+//         k = 0;
+//         while (words[k])
+//         {
+//             number[j] = ft_atoi(words[k]);
+//             printf(" array: %d %d\n",j, number[j]);
+//             //free(words[j]);
+//             k++;
+//             j++;
+//         }
+//         i++;
+//     }
+//     free(words);
+//     return (0);
+// }
 /*analisis**/

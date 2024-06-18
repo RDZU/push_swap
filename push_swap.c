@@ -9,7 +9,7 @@ void	ksort_part_two(t_stack **stack_a, t_stack **stack_b, int length);
 t_stack	*ft_lstlast(t_stack *lst);
 void	ft_sort_three(t_stack **stack);
 void	ft_sort_five(t_stack **stack_a, t_stack **stack_b);
-void	ft_sort(t_stack **stack_a, t_stack **stack_b, int size_list);
+void	ft_sort(t_stack **stack_a, t_stack **stack_b);
 int		ft_atoi(const char *str);
 int		ft_size_list(t_stack *head);
 void	ft_push(t_stack **before, int content, int pos);
@@ -28,21 +28,10 @@ int		ft_is_numeric(char *str);
 void	ft_is_ordened(t_stack *head);
 void	ft_msm_error(char *str, int flag);
 size_t	ft_strlen(const char *s);
+char **ft_split(char *str, char delimiter);
 
 // ORDENAMIENTO
 
-size_t	ft_strlen(const char *s)
-{
-	size_t	i;
-
-	i = 0;
-	while (*s != '\0')
-	{
-		s++;
-		i++;
-	}
-	return (i);
-}
 void	ft_putchar_fd(char c, int fd)
 {
 	write(fd, &c, 1);
@@ -194,7 +183,7 @@ void ft_rotate(t_stack **list, char type)
 	if (type == 97)
 		write(1,"ra\n",3);
 	if (type == 98)
-		write(1,"ra\n",3);
+		write(1,"rb\n",3);
 }
 
 
@@ -283,25 +272,25 @@ void ft_sort_three(t_stack **stack)
 
 	if(b > c && a < c)
 	{
-		printf("\n caso 1");
+		//printf("\n caso 1");
 		ft_swap(stack, 'a');
 		ft_rotate(stack, 'a');
 	}
 	else if (a > b && b > c)
 	{
-		printf("\n caso 2");
+		//printf("\n caso 2");
 		ft_rotate(stack, 'a');
 		ft_swap(stack, 'a');
 	}
 	else if (b > a && a > c)
 	{
-		printf("\n caso 3");
+		//printf("\n caso 3");
 		ft_rotate_reverse(stack, 'a');
 		
 	}
 	else if(c > b && b < a)
 	{
-		printf("\n caso 4");
+		//printf("\n caso 4");
 		ft_swap(stack, 'a');
 	}
 }
@@ -332,10 +321,13 @@ void ft_sort_five(t_stack **stack_a, t_stack **stack_b)
 	}
 }
 
-void ft_sort(t_stack **stack_a, t_stack **stack_b, int size_list)
+void ft_sort(t_stack **stack_a, t_stack **stack_b)
 {
 	//printf("\n size_list: %d \n", size_list);
 	// verificas si esta ordenado
+	int	size_list;
+	size_list = ft_size_list(*stack_a);
+	//printf(" %d",size_list );exit(1);
 	if (size_list == 2)
 	{
 		if((*stack_a)->index > (*stack_a)->next->index)
@@ -424,6 +416,8 @@ int	ft_atoi(const char *str)
 			sign *= -1;
 		i++;
 	}
+	if (str[i] == 43 || str[i] == 45)
+		ft_msm_error("error sign", 1);
 	while (str[i] >= 48 && str[i] <= 57)
 	{
 		result = result * 10 + (str[i] - 48);
@@ -443,10 +437,11 @@ int ft_size_list(t_stack *head)
 	int pos;
 	if (!head)
 		return (0);
-
+	pos = 0;
 	while (head != NULL)
 	{
 		pos++;
+		//printf("%d\n", head->content);
 		head = head->next;
 	}
 	return (pos);
@@ -515,7 +510,7 @@ void	ft_check_equal( t_stack *head)
 		j = i->next;
 		while(j != NULL)
 		{	
-			printf("i: %d, j:%d \n",i->content, j->content);
+			//printf("i: %d, j:%d \n",i->content, j->content);
 			if (i->content == j->content)
 				ft_msm_error("repeat Error",1);
 			j = j->next;
@@ -661,54 +656,43 @@ int main (int argc, char **argv)
 {	
 	 t_stack *stack_a = NULL;
 	 t_stack *stack_b = NULL;
-	 int	result_atoi;
-	 int i = argc;
-	 int number;
-	 int count_argc;
-	 int *number_array;
+	char **words;
+	int i = 1;
+	int *number;
+	int j = 0;
+	int k = 0;
 
-	
+	number = (int *)malloc(sizeof(int) * 7);
+	int cantidad_argc = argc - 1;
+
 
 	if (argc >= 2)
 	{
-		count_argc = ft_count_digits(argc, argv);
-
-		printf(" count -->%d", count_argc);
-		exit(0);
-		while (--i > 0)
+		while (i < argc)
 		{
-			ft_is_numeric(argv[i]);
-			number_array = ft_split(argc, argv);
-			//printf(" result atoi: %s \n", argv[i]);
-			result_atoi = ft_atoi(argv[i]);
-			//printf(" result atoi: %d \n", result_atoi);
-			ft_push(&stack_a, result_atoi, i);
+			words = ft_split(argv[i],' ');
+			k = 0;
+			while (words[k])
+			{
+				number[j] = ft_atoi(words[k]);
+				//printf(" array: %d %d\n",j, number[j]);
+				//free(words[j]);
+				k++;
+				j++;
+			}
+			i++;
+		}
+
+		while (j-- > 0)
+		{
+			ft_push(&stack_a,number[j],j);
+			//printf(" array: %d %d\n",j, number[j]);
 		}
 		ft_is_ordened(stack_a);
-		// if (is_sort == 1)
-		// 	write(1,"repeat",6);
 		ft_check_equal(stack_a);
 		ft_sort_index(stack_a);
-		//printf("%d\n", ft_check_equal(stack_a));
-		//ft_is_sort(stack_a);
-		//printf("Esta Ordenado:");
-		//exit(1);
-		//ft_swap(&head);
-		//ft_rotate(&stack_a);
-		//ft_rotate_reverse(&stack_a);
-		//ft_swap(&head);
-		//ft_swap(&head);
-		// push_other_stack(&stack_a, &stack_b);
-		// push_other_stack(&stack_a, &stack_b);
-		// push_other_stack(&stack_a, &stack_b);
-		//if (argc - 1 <= 5)
-		ft_sort(&stack_a, &stack_b, argc - 1);
+		ft_sort(&stack_a, &stack_b);
 		ft_display(stack_a);
-		// else
-		// 	ft_sort_ksort(&stack_a, &stack_b, argc - 1);
-		//printf("\n Stack a \n");
-		//printf("Stack b \n");
-		//ft_display(stack_b);
 		free(stack_a);
 		free(stack_b);
 	}
@@ -741,3 +725,9 @@ int main (int argc, char **argv)
 
 // 	return 0;
 // }
+
+// https://push-swap-visualizer.vercel.app
+
+// 1% ARG="17 4 11 6 9 14 18 3 12 8 5 7 10 16 20 15 2 13 1 19"; ./a.out $ARG > result.txt  
+
+// https://push-swap-visualizer.vercel.app/
