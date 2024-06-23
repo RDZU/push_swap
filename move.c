@@ -6,7 +6,7 @@
 /*   By: razamora <razamora@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 20:52:12 by razamora          #+#    #+#             */
-/*   Updated: 2024/06/22 23:52:35 by razamora         ###   ########.fr       */
+/*   Updated: 2024/06/23 17:50:08 by razamora         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ void	ft_rotate(t_stack **list, char type)
 
 	if (!list || !*list || ft_size_list(*list) < 2)
 		return ;
-
 	first = (*list);
 	last = ft_lstlast(*list);
 	*list = (*list)->next;
@@ -90,6 +89,11 @@ void	push_other_stack(t_stack **a, t_stack **b, char type)
 		if (type == 98)
 			write(1, "pb\n", 3);
 	}
-	ft_display(*a);
-	ft_display(*b);
+}
+
+void	ft_rotate_both(t_stack **stack_a, t_stack **stack_b)
+{
+	ft_rotate(stack_a, 'a');
+	ft_rotate(stack_b, 'b');
+	write(1, "rr\n", 3);
 }

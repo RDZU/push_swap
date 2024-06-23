@@ -1,11 +1,3 @@
- | contenido: -78 |  index: 0 |  pos: 9 |  dir. actual: 0x55b59d04d550 |  dir. apunta: 0x55b59d04d570 |
-  | contenido: -5 |  index: 1 |  pos: 8 |  dir. actual: 0x55b59d04d570 |  dir. apunta: 0x55b59d04d5d0 |
-  | contenido: 7 |  index: 2 |  pos: 5 |  dir. actual: 0x55b59d04d5d0 |  dir. apunta: 0x55b59d04d5b0 |
-  | contenido: 9 |  index: 3 |  pos: 6 |  dir. actual: 0x55b59d04d5b0 |  dir. apunta: 0x55b59d04d590 |
-  | contenido: 10 |  index: 4 |  pos: 7 |  dir. actual: 0x55b59d04d590 |  dir. apunta: 0x55b59d04d630 |
-  | contenido: 70 |  index: 5 |  pos: 2 |  dir. actual: 0x55b59d04d630 |  dir. apunta: 0x55b59d04d650 |
-  | contenido: 100 |  index: 6 |  pos: 1 |  dir. actual: 0x55b59d04d650 |  dir. apunta: 0x55b59d04d670 |
-  | contenido: 400 |  index: 7 |  pos: 0 |  dir. actual: 0x55b59d04d670 |  dir. apunta: 0x55b59d04d610 |
-  | contenido: 1000 |  index: 8 |  pos: 3 |  dir. actual: 0x55b59d04d610 |  dir. apunta: 0x55b59d04d5f0 |
-  | contenido: 5000 |  index: 9 |  pos: 4 |  dir. actual: 0x55b59d04d5f0 |  dir. apunta: (nil) |
+ | contenido: -2147483648 |  index: 0 |  pos: 0 |  dir. actual: 0x603000000040 |  dir. apunta: (nil) |
+ 
  
