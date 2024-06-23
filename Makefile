@@ -1,10 +1,10 @@
 NAME		= push_swap
-CC			= cc #-fsanitize=address -fsanitize=leak -g3 -lm
+CC			= gcc -fsanitize=address -fsanitize=leak -g3 -lm
 CFLAG		= -lm
 RM			= rm -rf
 # MANDATORY	= push_swap.c
 
-SOURCES = push_swap.c
+SOURCES = push_swap.c ksort.c move.c sort_simple.c utils.c utils_stack.c
 OBJECTS = $(SOURCES:.c=.o)
 
 LIBFT		= libft/libft.a

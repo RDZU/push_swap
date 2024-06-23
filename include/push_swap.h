@@ -6,7 +6,7 @@
 /*   By: razamora <razamora@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 16:18:42 by razamora          #+#    #+#             */
-/*   Updated: 2024/06/17 20:25:08 by razamora         ###   ########.fr       */
+/*   Updated: 2024/06/23 02:27:50 by razamora         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <math.h>
+#include <fcntl.h>
 
 typedef struct	s_stack
 {
@@ -25,8 +26,6 @@ typedef struct	s_stack
 	struct s_stack	*next;
 }					t_stack;
 
-int		ft_lstsize(t_stack *lst);
-//int	ft_lstsize(t_stack *lst);
 int		count_r(t_stack *stack, int index);
 void	ksort_part_one(t_stack **stack_a, t_stack **stack_b, int length);
 void	ksort_part_two(t_stack **stack_a, t_stack **stack_b, int length);
@@ -54,6 +53,12 @@ void	ft_is_numeric(const char *str);
 void	ft_is_ordened(t_stack *head);
 void	ft_msm_error(char *str, int flag);
 size_t	ft_strlen(const char *s);
-char **ft_split(char *str, char delimiter);
-
+char 	**ft_split(char *str, char delimiter);
+void	ft_free_matrix(char **mat);
+void	ft_free_array(int *arr);
+void	ft_lstdelone(t_stack *lst, int (*del)(int *));
+void	ft_lstclear(t_stack **lst);
+size_t	ft_count_word(char const *s, char c);
+int		ft_sqrt(int number);
+int 	*process_argv(int argc, char **argv, t_stack **stack_a, char **words);
 #endif

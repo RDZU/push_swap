@@ -1,128 +1,130 @@
-#include <math.h>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ksort.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: razamora <razamora@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/22 20:34:58 by razamora          #+#    #+#             */
+/*   Updated: 2024/06/22 23:50:00 by razamora         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-// int	is_rot_sort(t_stack *stack, int min_s_index)
-// {
-// 	int	a;
-// 	int	b;
-// 	int	c;
+#include "include/push_swap.h"
 
-// 	(void)min_s_index;
-// 	a = stack->head->data;
-// 	b = stack->head->next->data;
-// 	c = stack->head->next->next->data;
-// 	if (a < b && b < c)
-// 		return (1);
-// 	if (b < c && a > c)
-// 		return (1);
-// 	if (c < a && a < b)
-// 		return (1);
-// 	return (0);
-// }
-
-// void	simple_sort(t_stack *stack, int length)
-// {
-// 	int		min_s_index;
-// 	int		r;
-
-// 	if (is_sorted(stack))
-// 		return ;
-// 	min_s_index = get_min_index(stack);
-// 	r = count_r(stack->head, min_s_index);
-// 	if (is_rot_sort(stack, min_s_index))
-// 	{
-// 		if (r < length - r)
-// 			rotate(stack, 'a', true);
-// 		else
-// 			reverse_rotate(stack, 'a', true);
-// 	}
-// 	else
-// 	{
-// 		swap(stack, 'a', true);
-// 		if (is_sorted(stack))
-// 			return ;
-// 		if (r < length - r)
-// 			rotate(stack, 'a', true);
-// 		else
-// 			reverse_rotate(stack, 'a', true);
-// 	}
-// }
-
-// void	s_insertion_sort(t_stack *stack_a, t_stack *stack_b, int length)
-// {
-// 	int	min_index;
-// 	int	iter;
-// 	int	n;
-
-// 	iter = 0;
-// 	n = length;
-// 	while (iter++ < n - 3)
-// 	{
-// 		min_index = get_min_index(stack_a);
-// 		if (count_r(stack_a->head, min_index) <= n - min_index - \
-// 			count_r(stack_a->head, min_index))
-// 			while (stack_a->head->s_index != min_index)
-// 				rotate(stack_a, 'a', true);
-// 		else
-// 			while (stack_a->head->s_index != min_index)
-// 				reverse_rotate(stack_a, 'a', true);
-// 		if (is_sorted(stack_a) && stack_b->size == 0)
-// 			return ;
-// 		push(stack_b, stack_a, 'b', true);
-// 		length--;
-// 	}
-// 	simple_sort(stack_a, length);
-// 	iter = 0;
-// 	while (iter++ < n - 3)
-// 		push(stack_a, stack_b, 'a', true);
-// }
-
-void	k_sort1(t_stack *stack_a, t_stack *stack_b, int length)
+void	ksort_part_one(t_stack **stack_a, t_stack **stack_b, int length)
 {
 	int	i;
 	int	range;
 
 	i = 0;
-	range = sqrt(length) * 14 / 10;
-	while (stack_a->head)
+	range = ft_sqrt(length) * 14 / 10;
+	while (*stack_a)
 	{
-		if (stack_a->head->s_index <= i)
+		if ((*stack_a)->index <= i)
 		{
-			push(stack_b, stack_a, 'b', true);
-			rotate(stack_b, 'b', true);
+			push_other_stack(stack_a, stack_b, 'b');
+		//	if(!(*stack_a)->index <= i + range)
+		//		ft_rotate_both(stack_a,stack_b);
+		//	else
+			ft_rotate(stack_b, 'b');
 			i++;
 		}
-		else if (stack_a->head->s_index <= i + range)
+		else if ((*stack_a)->index <= i + range)
 		{
-			push(stack_b, stack_a, 'b', true);
+			push_other_stack(stack_a, stack_b, 'b');
 			i++;
 		}
 		else
-			rotate(stack_a, 'a', true);
+			ft_rotate(stack_a, 'a');
 	}
 }
 
-void	k_sort2(t_stack *stack_a, t_stack *stack_b, int length)
+void	ksort_part_two(t_stack **stack_a, t_stack **stack_b, int length)
 {
 	int	rb_count;
 	int	rrb_count;
 
 	while (length - 1 >= 0)
 	{
-		rb_count = count_r(stack_b->head, length - 1);
+		rb_count = count_r(*stack_b, length - 1);
 		rrb_count = (length + 3) - rb_count;
 		if (rb_count <= rrb_count)
 		{
-			while (stack_b->head->s_index != length - 1)
-				rotate(stack_b, 'b', true);
-			push(stack_a, stack_b, 'a', true);
+			//printf(" | contenido------>>>>>>: %d | \n", (*stack_b)->content);
+			//printf(" | len------>>>>>>: %d | \n", length);
+		//	if( !(*stack_b))
+		//		printf("test");
+				
+			while ((*stack_b)->index != length - 1)//error
+			{
+		//		printf("linea \n");
+				ft_rotate(stack_b, 'b');
+			}
+			push_other_stack(stack_b, stack_a, 'a');
 			length--;
 		}
 		else
 		{
-			while (stack_b->head->s_index != length - 1)
-				reverse_rotate(stack_b, 'b', true);
-			push(stack_a, stack_b, 'a', true);
+		//	if( !(*stack_b))
+		//		printf("test 2");
+			while ((*stack_b)->index != length - 1)
+				ft_rotate_reverse(stack_b, 'b');
+			push_other_stack(stack_b, stack_a, 'a');
 			length--;
 		}
 	}
 }
+
+/*
+void ft_sort_ksort(t_stack **stack_a, t_stack **stack_b, int size_list)
+{
+	int	i;
+	int	range;
+	int	rb_count;
+	int	rrb_count;
+
+	i = 0;
+	range = sqrt(size_list) * 14 / 10;
+	range = sqrt(size_list) * 14 / 10;
+		//printf(" | contenido------>>>>>>");
+		//exit(1);
+	while ((*stack_a))
+	{
+		//printf(" | contenido------>>>>>>: %d | ", (*stack_a)->content);
+		if ((*stack_a)->index <= i)
+		{
+			push_other_stack(stack_a, stack_b, 'b');
+			ft_rotate(stack_b, 'b');
+			i++;
+		}
+		else if ((*stack_a)->index <= i + range)
+		{
+			push_other_stack(stack_a, stack_b, 'b');
+			i++;
+		}
+		else
+			ft_rotate(stack_a, 'a');
+	}
+
+	while (size_list - 1 >= 0)
+	{
+		rb_count = count_r(*stack_b, size_list - 1);
+		rrb_count = (size_list + 3) - rb_count;
+		if (rb_count <= rrb_count)
+		{
+			while ((*stack_b)->index != size_list - 1)
+				ft_rotate(stack_b, 'b');
+			push_other_stack(stack_b, stack_a, 'a');
+			size_list--;
+		}
+		else
+		{
+			while ((*stack_b)->index != size_list - 1)
+				ft_rotate_reverse(stack_b, 'b');
+			push_other_stack(stack_b, stack_a, 'a');
+			size_list--;
+		}
+	}
+}
+*/
