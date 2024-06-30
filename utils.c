@@ -6,7 +6,7 @@
 /*   By: razamora <razamora@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 21:50:36 by razamora          #+#    #+#             */
-/*   Updated: 2024/06/23 17:39:24 by razamora         ###   ########.fr       */
+/*   Updated: 2024/06/30 17:35:14 by razamora         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	ft_sqrt(int number)
 	return (result);
 }
 
-int	ft_atoi(const char *str)
+int	ft_atoi_check(const char *str)
 {
 	int		sign;
 	long	result;
@@ -53,7 +53,7 @@ int	ft_atoi(const char *str)
 		i++;
 	}
 	if (str[i] == 43 || str[i] == 45)
-		ft_msm_error("Error sign", 1);
+		ft_msm_error("Error", 1);
 	while (str[i] >= 48 && str[i] <= 57)
 	{
 		result = result * 10 + (str[i] - 48);
@@ -67,6 +67,9 @@ int	ft_atoi(const char *str)
 void	ft_msm_error(char *str, int flag)
 {
 	while (*str != '\0')
+	{
 		write (1, str++, 1);
+	}
+	write(1, "\n", 1);
 	exit(flag);
 }

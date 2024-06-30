@@ -6,7 +6,7 @@
 /*   By: razamora <razamora@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 23:00:58 by razamora          #+#    #+#             */
-/*   Updated: 2024/06/23 01:33:44 by razamora         ###   ########.fr       */
+/*   Updated: 2024/06/30 15:06:48 by razamora         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,12 @@ void	ft_push(t_stack **before, int content, int pos)
 		return ;
 	new->content = content;
 	new->index = 0;
-	new->pos = pos;
+	new->pos_init = pos;
 	new->next = *before;
 	*before = new;
 }
 
-void	ft_lstclear(t_stack **lst)
+void	ft_lst_clear(t_stack **lst)
 {
 	t_stack	*current;
 	t_stack	*aux;
@@ -45,7 +45,7 @@ void	ft_lstclear(t_stack **lst)
 	*lst = NULL;
 }
 
-t_stack	*ft_lstlast(t_stack *lst)
+t_stack	*ft_lst_last(t_stack *lst)
 {
 	if (!lst)
 		return (NULL);

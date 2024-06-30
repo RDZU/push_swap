@@ -6,7 +6,7 @@
 /*   By: razamora <razamora@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 20:52:12 by razamora          #+#    #+#             */
-/*   Updated: 2024/06/23 17:50:08 by razamora         ###   ########.fr       */
+/*   Updated: 2024/06/30 20:21:38 by razamora         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	ft_rotate(t_stack **list, char type)
 	if (!list || !*list || ft_size_list(*list) < 2)
 		return ;
 	first = (*list);
-	last = ft_lstlast(*list);
+	last = ft_lst_last(*list);
 	*list = (*list)->next;
 	last->next = first;
 	first->next = NULL;
@@ -44,6 +44,14 @@ void	ft_rotate(t_stack **list, char type)
 		write(1, "ra\n", 3);
 	if (type == 98)
 		write(1, "rb\n", 3);
+}
+
+void	ft_rotate_double(t_stack **stack_a, t_stack **stack_b)
+{
+	ft_rotate(stack_a, ' ');
+	ft_rotate(stack_b, ' ');
+	write(1, "rr\n", 3);
+	
 }
 
 void	ft_rotate_reverse(t_stack **list, char type)
@@ -55,7 +63,7 @@ void	ft_rotate_reverse(t_stack **list, char type)
 	if (!list || !(*list)->next)
 		return ;
 	first = (*list);
-	last = ft_lstlast(*list);
+	last = ft_lst_last(*list);
 	aux = *list;
 	while (aux->next->next)
 		aux = aux->next;
@@ -89,11 +97,4 @@ void	push_other_stack(t_stack **a, t_stack **b, char type)
 		if (type == 98)
 			write(1, "pb\n", 3);
 	}
-}
-
-void	ft_rotate_both(t_stack **stack_a, t_stack **stack_b)
-{
-	ft_rotate(stack_a, 'a');
-	ft_rotate(stack_b, 'b');
-	write(1, "rr\n", 3);
 }

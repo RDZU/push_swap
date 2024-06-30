@@ -6,7 +6,7 @@
 /*   By: razamora <razamora@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 20:34:58 by razamora          #+#    #+#             */
-/*   Updated: 2024/06/23 13:55:13 by razamora         ###   ########.fr       */
+/*   Updated: 2024/06/30 20:36:24 by razamora         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,19 +18,22 @@ void	ksort_part_one(t_stack **stack_a, t_stack **stack_b, int length)
 	int	range;
 
 	i = 0;
-	range = ft_sqrt(length) * 14 / 10;
+	range = ft_sqrt(length) * 133 / 100;
 	while (*stack_a)
 	{
 		if ((*stack_a)->index <= i)
 		{
 			push_other_stack(stack_a, stack_b, 'b');
-			ft_rotate(stack_b, 'b');
 			i++;
 		}
 		else if ((*stack_a)->index <= i + range)
 		{
 			push_other_stack(stack_a, stack_b, 'b');
 			i++;
+			if (!((*stack_a)->index <= i + range))
+				ft_rotate_double(stack_a, stack_b);
+			else
+				ft_rotate(stack_b, 'b');
 		}
 		else
 			ft_rotate(stack_a, 'a');

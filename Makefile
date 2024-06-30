@@ -6,7 +6,7 @@
 #    By: razamora <razamora@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/23 15:05:03 by razamora          #+#    #+#              #
-#    Updated: 2024/06/23 15:05:17 by razamora         ###   ########.fr        #
+#    Updated: 2024/06/30 18:07:38 by razamora         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,20 +23,23 @@ INCLUDE		= ./include/
 
 all : $(NAME)
 
-$(NAME): $(OBJECTS) $(LIBFT)
-	@$(CC) $(CFLAGS) $(OBJECTS) $(LIBFT) -I $(INCLUDE) -o $(NAME)
+$(NAME): $(OBJECTS) $(LIBFT) 
+	$(CC) $(CFLAGS) $(OBJECTS) $(LIBFT) -I $(INCLUDE) -o $(NAME)
 
 $(LIBFT):
 	make -C libft
 
 %.o:%.c
-	@$(CC) $(CFLAGS) -c $< -I $(INCLUDE) -o $@
+	$(CC) $(CFLAGS) -c $< -I $(INCLUDE) -o $@
 
 clean :
-	@$(RM) $(OBJECTS)
+	$(RM) $(OBJECTS)
+	make clean -C libft
 
 fclean : clean
-	@$(RM) $(NAME) checker
+	$(RM) $(NAME)
+	$(RM) $(LIBFT)
+
 
 re : fclean all
 

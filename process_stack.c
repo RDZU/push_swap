@@ -6,7 +6,7 @@
 /*   By: razamora <razamora@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/23 12:01:32 by razamora          #+#    #+#             */
-/*   Updated: 2024/06/23 19:37:09 by razamora         ###   ########.fr       */
+/*   Updated: 2024/06/30 17:27:49 by razamora         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	ft_calculate_number_elem(int argc, char **argv)
 	i = 1;
 	total_words = 0;
 	while (i < argc)
-		total_words += ft_count_word(argv[i++], ' ');
+		total_words += ft_count_arg(argv[i++], ' ');
 	return (total_words);
 }
 
@@ -63,18 +63,19 @@ int	*process_argv(int argc, char **argv, t_stack **stack_a, char **words)
 		k = 0;
 		while (words[k])
 			number[j++] = ft_check_string(words[k++]);
-		ft_free_matrix(words);
+		ft_free_argv(words);
 	}
 	while (j-- > 0)
 		ft_push(stack_a, number[j], j);
 	return (number);
 }
 
-size_t	ft_count_word(char const *s, char c)
+size_t	ft_count_arg(char const *s, char c)
 {
 	size_t	count;
 
 	count = 0;
+	ft_check_empty(s);
 	while (*s != '\0')
 	{
 		if (*s != (char)c && (*(s + 1) == (char)c || *(s + 1) == '\0'))
@@ -82,4 +83,15 @@ size_t	ft_count_word(char const *s, char c)
 		s++;
 	}
 	return (count);
+}
+
+void	ft_check_empty(char const *s)
+{
+	while (*s != '\0')
+	{
+		if (*s != ' ')
+			return ;
+		s++;
+	}
+	ft_msm_error("Error", 1);
 }

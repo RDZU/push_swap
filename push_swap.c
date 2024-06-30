@@ -6,7 +6,7 @@
 /*   By: razamora <razamora@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 20:34:53 by razamora          #+#    #+#             */
-/*   Updated: 2024/06/23 18:23:56 by razamora         ###   ########.fr       */
+/*   Updated: 2024/06/30 17:56:27 by razamora         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ void	ft_is_ordened(t_stack *head)
 		return ;
 	i = head;
 	j = i->next;
-	size_list = ft_size_list(head);
 	if (size_list > 1)
 	{
 		count_comparative = 0;
@@ -40,7 +39,7 @@ void	ft_is_ordened(t_stack *head)
 	}
 }
 
-void	ft_free_matrix(char **mat)
+void	ft_free_argv(char **mat)
 {
 	size_t	i;
 
@@ -48,29 +47,6 @@ void	ft_free_matrix(char **mat)
 	while (mat[i])
 		free(mat[i++]);
 	free(mat);
-}
-
-void ft_display(t_stack *n)
-{
-	char *file = "swap.log";
-	 FILE *fp = fopen(file, "w"); // Open file in write mode
-	if (fp == NULL) {
-		printf("Error: Cannot open file for writing!\n");
-		return;
-	}
-	int count = 0;
-	while(n != NULL)
-	{
-		fprintf(fp, " | contenido: %d | ", n->content);
-		fprintf(fp, " index: %d | ", n->index);
-		fprintf(fp, " pos: %d | ", n->pos);
-		fprintf(fp, " dir. actual: %p | ", (void *)n); // Cast 
-		fprintf(fp, " dir. apunta: %p |\n ", (void *)n->next); // Cast
-		//fprintf(fp, " count: %d | \n", count++);
-		 n = n->next;
-	}
-	fprintf(fp, "\n \n");
-	fclose(fp);
 }
 
 int	main(int argc, char **argv)
@@ -89,8 +65,7 @@ int	main(int argc, char **argv)
 	ft_check_equal(stack_a);
 	ft_sort_index(stack_a);
 	ft_sort(&stack_a, &stack_b);
-	ft_display(stack_a);
-	ft_lstclear(&stack_a);
-	ft_lstclear(&stack_b);
+	ft_lst_clear(&stack_a);
+	ft_lst_clear(&stack_b);
 	free(number);
 }
