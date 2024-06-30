@@ -6,7 +6,7 @@
 /*   By: razamora <razamora@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 20:34:53 by razamora          #+#    #+#             */
-/*   Updated: 2024/06/30 17:56:27 by razamora         ###   ########.fr       */
+/*   Updated: 2024/06/30 20:39:41 by razamora         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int	main(int argc, char **argv)
 	stack_b = NULL;
 	number = process_argv(argc, argv, &stack_a, words);
 	if (argc == 1)
-		ft_msm_error("", 0);
+		exit(1);
 	ft_is_ordened(stack_a);
 	ft_check_equal(stack_a);
 	ft_sort_index(stack_a);
