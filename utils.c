@@ -6,7 +6,7 @@
 /*   By: razamora <razamora@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 21:50:36 by razamora          #+#    #+#             */
-/*   Updated: 2024/06/30 17:35:14 by razamora         ###   ########.fr       */
+/*   Updated: 2024/07/02 22:38:38 by razamora         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ int	ft_sqrt(int number)
 {
 	int	result;
 
+	if (number == 0)
+		return (0);
 	result = 1;
 	while (result * result < number)
 		result++;

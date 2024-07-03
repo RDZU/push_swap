@@ -6,7 +6,7 @@
 /*   By: razamora <razamora@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 20:52:12 by razamora          #+#    #+#             */
-/*   Updated: 2024/06/30 20:21:38 by razamora         ###   ########.fr       */
+/*   Updated: 2024/07/02 19:24:41 by razamora         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ void	ft_rotate_double(t_stack **stack_a, t_stack **stack_b)
 	ft_rotate(stack_a, ' ');
 	ft_rotate(stack_b, ' ');
 	write(1, "rr\n", 3);
-	
 }
 
 void	ft_rotate_reverse(t_stack **list, char type)

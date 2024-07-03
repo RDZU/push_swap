@@ -6,12 +6,12 @@
 #    By: razamora <razamora@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/23 15:05:03 by razamora          #+#    #+#              #
-#    Updated: 2024/06/30 18:07:38 by razamora         ###   ########.fr        #
+#    Updated: 2024/07/03 00:28:01 by razamora         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME		= push_swap
-CC			= gcc -fsanitize=address -fsanitize=leak -g3
+CC			= gcc
 CFLAG		= -Wall -Wextra -Werror
 RM			= rm -rf
 
