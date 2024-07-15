@@ -1,0 +1,45 @@
+void	ft_sort_three(t_stack **stack)
+{
+	int	a;
+	int	b;
+	int	c;
+	//ft_display(*stack);
+	a = (*stack)->index;
+	b = (*stack)->next->index;
+	c = (*stack)->next->next->index;
+	
+	if ( a < b && b < c)
+		return ;
+	if (b > c && a < c)
+	{
+	//	printf("\n caso 1");
+		ft_swap(stack, 'a');
+		ft_rotate(stack, 'a');
+	}
+	else if (a > b && b > c)
+	{
+	//	printf("\n caso 2");
+		ft_rotate(stack, 'a');
+		ft_swap(stack, 'a');
+	}
+	else if (a > b && b < c)
+	{
+	//	printf("\n caso 3");
+		ft_swap(stack, 'a');
+	}
+	else if (b > a && a < c)
+	{
+	//	printf("\n caso 4");
+		ft_rotate_reverse(stack, 'a');
+	}
+	else if (c > a && a > b)
+	{
+	//	printf("\n caso 5");
+		ft_swap(stack, 'a');
+	}
+	else if (b > a && a > c)
+	{
+	//	printf("\n caso 6");
+		ft_rotate_reverse(stack, 'a');
+	}
+}
